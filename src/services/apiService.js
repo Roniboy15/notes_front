@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = 'http://localhost:10000/';
+const API_KEY = 'https://notes-taking-app-server.onrender.com/';
 
 // Function to get the token from local storage
 const getToken = () => {
