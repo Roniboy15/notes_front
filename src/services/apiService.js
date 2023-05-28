@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const API_KEY = 'https://notes-taking-app-server.onrender.com/';
-
+export const API_KEY = 'http://localhost:10000/';
+export const TOKEN_KEY = 'token';
 // Function to get the token from local storage
 const getToken = () => {
-    return localStorage.getItem('token') || '';
+    return localStorage.getItem(TOKEN_KEY) || '';
   };
   
   export const doApiMethod = async (url, method, data = {}) => {

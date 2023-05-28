@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
+import { UserContext } from '../../context/createContext';
+import { TOKEN_KEY } from '../../services/apiService';
 
 const Header = () => {
+
+  const { user, fetchUserData } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
 
   const toggleNavbar = () => {
@@ -13,6 +17,12 @@ const Header = () => {
 
   const closeNavbar = () => {
     setExpanded(false);
+  };
+
+  const onLogOut = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    fetchUserData();
+    alert('You logged out, see you soon!');
   };
 
   return (
@@ -28,7 +38,15 @@ const Header = () => {
             <Nav.Link as={Link} to="/login" onClick={closeNavbar}>Login</Nav.Link>
           </Nav>
         </Navbar.Collapse>
+        
+
       </Container>
+      {user ?
+          <Link to={"/"} className='p-2 m-2' onClick={() => {
+            onLogOut()
+          }}>Log out</Link>
+          : ''
+                    }
     </Navbar>
   );
 }

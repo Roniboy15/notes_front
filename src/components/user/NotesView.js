@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { doApiMethod } from '../../services/apiService.js';
+import DOMPurify from 'dompurify';
 
 const NotesViewer = () => {
   const [notes, setNotes] = useState([]);
@@ -57,11 +58,12 @@ const NotesViewer = () => {
           <ListGroup className="mt-4">
             {notes.map((note, index) => (
               <ListGroup.Item key={index}>
-                <h5>{note.topic.name}</h5>
-                <p>{note.content}</p>
                 {note.author ?
-                  <p>- {note.author}</p>
+                  <div className='text-center'>{note.author}</div>
                   : ''}
+                <hr></hr>
+                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(note.content) }}></div>
+
               </ListGroup.Item>
             ))}
           </ListGroup>
