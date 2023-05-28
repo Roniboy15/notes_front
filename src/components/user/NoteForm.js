@@ -5,6 +5,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { doApiMethod } from '../../services/apiService.js';
+import ReactQuill from 'react-quill'; // Importing Quill
+import 'react-quill/dist/quill.snow.css'; // Importing Quill styles
 
 //To Do:
 
@@ -44,13 +46,13 @@ const NoteForm = () => {
         <Col xs={12} md={8}>
           <h2 className='m-2'>Create Note</h2>
           <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="author" className='m-2'>
+            <Form.Group controlId="author" className='m-2'>
               <Form.Label>Author</Form.Label>
               <Form.Control type="text" name="author" value={author} onChange={e => setAuthor(e.target.value)}  />
             </Form.Group>
             <Form.Group controlId="content" className='m-2'>
               <Form.Label>Content</Form.Label>
-              <Form.Control as="textarea" name="content" value={content} onChange={e => setContent(e.target.value)} rows="4" required />
+              <ReactQuill theme="snow" value={content} onChange={setContent} /> {/* Using Quill editor */}
             </Form.Group>
             <Form.Group controlId="topic" className='m-2'>
               <Form.Label>Topic</Form.Label>
