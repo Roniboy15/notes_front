@@ -83,12 +83,21 @@ const NoteForm = () => {
       const correctionResponse = await doApiMethod('notes/correct', 'POST', {
         content,
       });
-      console.log(correctionResponse)
-      setContent(correctionResponse);
+  
+      // Check if the response contains HTML tags.
+      // const htmlTagPattern = /<[^>]*>/g;
+  
+      // Remove HTML tags from the response.
+      // const filteredResponse = correctionResponse.replace(htmlTagPattern, '');
+  
+      if(window.confirm("Do you want to accept this change?\n" + `"${correctionResponse}"`)){
+        setContent(correctionResponse);
+      }
     } catch (err) {
       console.log(err);
     }
   };
+  
 
   return (
     <Container className="p-3">
@@ -108,6 +117,9 @@ const NoteForm = () => {
             <Form.Group controlId="content" className="m-2">
               <Form.Label>Content</Form.Label>
               <ReactQuill theme="snow" value={content} onChange={setContent} />
+              <Button variant="info" type="button" className="m-2" onClick={handleCheckGrammar}>
+              Check Grammar
+            </Button>
             </Form.Group>
             <Form.Group controlId="topic" className="m-2">
               <Form.Label>Topic</Form.Label>
@@ -140,9 +152,6 @@ const NoteForm = () => {
             </Form.Group>
             <Button variant="primary" type="submit" className="m-2">
               Save Note
-            </Button>
-            <Button variant="info" type="button" className="m-2" onClick={handleCheckGrammar}>
-              Check Grammar
             </Button>
           </Form>
         </Col>
