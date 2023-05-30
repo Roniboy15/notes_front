@@ -14,11 +14,12 @@ export const UserProvider = ({ children }) => {
             console.log(err);
             setUser(null)
         }
-        console.log("context user", user)
     };
 
     useEffect(() => {
         fetchUserData();
+        console.log("context user", user)
+
     }, [])
 
     return (

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/createContext';
-import { doApiMethod } from '../../services/apiService';
+import { TOKEN_KEY, doApiMethod } from '../../services/apiService';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -18,7 +18,7 @@ const Login = () => {
     };
     const res = await doApiMethod('auth/login', 'POST', data);
     if (res.token) {
-      localStorage.setItem('token', res.token);
+      localStorage.setItem(TOKEN_KEY, res.token);
       alert('Login successful!');
       await fetchUserData();  // Fetch user data after successful login
       navigate("/create");

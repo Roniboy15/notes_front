@@ -12,10 +12,6 @@ import { useContext } from 'react';
 import { UserProvider } from '../../context/UserInfoContext.js';
 import { UserContext } from '../../context/createContext.js';
 
-//To Do:
-
-//Author: make sure to use name of user as a default (so that one doesnt have to fill in)
-
 const NoteForm = () => {
 
   const { user, fetchUserData } = useContext(UserContext);
@@ -26,15 +22,20 @@ const NoteForm = () => {
   const [topics, setTopics] = useState([]);
   const [newTopic, setNewTopic] = useState('');
 
-
   useEffect(() => {
-    setAuthor(user.username);
+    fetchUserData();
+    setAuthor(user? user.username : '');
     fetchTopics();
   }, []);
 
+  useEffect(()=> {
+    setAuthor(user? user.username : '');
+
+  },[user])
+
   const fetchTopics = async () => {
     try {
-      const topicsResponse = await doApiMethod("topics", "GET");
+      const topicsResponse = await doApiMethod('topics', 'GET');
       setTopics(topicsResponse);
     } catch (err) {
       console.log(err);
@@ -45,9 +46,9 @@ const NoteForm = () => {
     event.preventDefault();
     setTopic(newTopic);
 
-    let url = "topics";
+    let url = 'topics';
     try {
-      let data = await doApiMethod(url, "POST", { name: newTopic, userId: user._id });
+      let data = await doApiMethod(url, 'POST', { name: newTopic, userId: user._id });
       fetchTopics(); // Fetch the updated list of topics after adding new one
       setNewTopic('');
     } catch (err) {
@@ -55,19 +56,18 @@ const NoteForm = () => {
     }
   };
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     let note = {
       author: author,
       content: content,
-      topic: topic
+      topic: topic,
     };
 
-    let url = "notes";
+    let url = 'notes';
     try {
-      let data = await doApiMethod(url, "POST", note);
+      let data = await doApiMethod(url, 'POST', note);
       console.log(data);
       // Reset the form
       setAuthor('');
@@ -78,40 +78,77 @@ const NoteForm = () => {
     }
   };
 
+  const handleCheckGrammar = async () => {
+    try {
+      const correctionResponse = await doApiMethod('notes/correct', 'POST', {
+        content,
+      });
+      console.log(correctionResponse)
+      setContent(correctionResponse);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <Container className='p-3'>
+    <Container className="p-3">
       <Row className="justify-content-md-center">
         <Col xs={12} md={8}>
-          <h2 className='m-2'>Create Note</h2>
+          <h2 className="m-2">Create Note</h2>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="author" className='m-2'>
+            <Form.Group controlId="author" className="m-2">
               <Form.Label>Author</Form.Label>
-              <Form.Control type="text" name="author" value={author} onChange={e => setAuthor(e.target.value)} />
+              <Form.Control
+                type="text"
+                name="author"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+              />
             </Form.Group>
-            <Form.Group controlId="content" className='m-2'>
+            <Form.Group controlId="content" className="m-2">
               <Form.Label>Content</Form.Label>
-              <ReactQuill theme="snow" value={content} onChange={setContent} /> {/* Using Quill editor */}
+              <ReactQuill theme="snow" value={content} onChange={setContent} />
             </Form.Group>
-            <Form.Group controlId="topic" className='m-2'>
+            <Form.Group controlId="topic" className="m-2">
               <Form.Label>Topic</Form.Label>
-              <Form.Control as="select" name="topic" value={topic} onChange={e => setTopic(e.target.value)} required>
+              <Form.Control
+                as="select"
+                name="topic"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                required
+              >
                 <option value="">Select a topic</option>
                 {topics.map((topic, index) => (
-                  <option value={topic.name} key={index}>{topic.name}</option>
+                  <option value={topic.name} key={index}>
+                    {topic.name}
+                  </option>
                 ))}
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId="newTopic" className='m-2'>
+            <Form.Group controlId="newTopic" className="m-2">
               <Form.Label>Add New Topic</Form.Label>
-              <Form.Control type="text" name="newTopic" value={newTopic} onChange={e => setNewTopic(e.target.value)} />
-              <Button variant="secondary" type="button" className='m-2' onClick={handleNewTopicSubmit}>Add Topic</Button>
+              <Form.Control
+                type="text"
+                name="newTopic"
+                value={newTopic}
+                onChange={(e) => setNewTopic(e.target.value)}
+              />
+              <Button variant="secondary" type="button" className="m-2" onClick={handleNewTopicSubmit}>
+                Add Topic
+              </Button>
             </Form.Group>
-            <Button variant="primary" type="submit" className='m-2'>Save Note</Button>
+            <Button variant="primary" type="submit" className="m-2">
+              Save Note
+            </Button>
+            <Button variant="info" type="button" className="m-2" onClick={handleCheckGrammar}>
+              Check Grammar
+            </Button>
           </Form>
         </Col>
       </Row>
     </Container>
   );
-}
+};
 
 export default NoteForm;
