@@ -35,18 +35,19 @@ const Header = () => {
             <Nav.Link as={Link} to="/" onClick={closeNavbar}>Home</Nav.Link>
             <Nav.Link as={Link} to="/create" onClick={closeNavbar}>Create Note</Nav.Link>
             <Nav.Link as={Link} to="/view" onClick={closeNavbar}>View Notes</Nav.Link>
-            <Nav.Link as={Link} to="/login" onClick={closeNavbar}>Login</Nav.Link>
+            {user ?
+              <Nav.Link as={Link} to="/home" onClick={()=>{
+                onLogOut()
+                closeNavbar();
+              }}>Log out</Nav.Link>
+              :
+              <Nav.Link as={Link} to="/login" onClick={closeNavbar}>Login</Nav.Link>
+            }
           </Nav>
         </Navbar.Collapse>
-        
+
 
       </Container>
-      {user ?
-          <Link to={"/"} className='p-2 m-2' onClick={() => {
-            onLogOut()
-          }}>Log out</Link>
-          : ''
-                    }
     </Navbar>
   );
 }
