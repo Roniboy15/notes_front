@@ -36,7 +36,7 @@ const Header = () => {
             <Nav.Link as={Link} to="/create" onClick={closeNavbar}>Create Note</Nav.Link>
             <Nav.Link as={Link} to="/view" onClick={closeNavbar}>View Notes</Nav.Link>
             {user ?
-              <Nav.Link as={Link} to="/home" onClick={()=>{
+              <Nav.Link as={Link} to="/" onClick={()=>{
                 onLogOut()
                 closeNavbar();
               }}>Log out</Nav.Link>

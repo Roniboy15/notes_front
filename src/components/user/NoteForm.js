@@ -11,6 +11,7 @@ import './css/NoteForm.css';
 import { useContext } from 'react';
 import { UserProvider } from '../../context/UserInfoContext.js';
 import { UserContext } from '../../context/createContext.js';
+import LoadingButton from '../general_comps/loadingButton.js';
 
 const NoteForm = () => {
 
@@ -21,6 +22,8 @@ const NoteForm = () => {
   const [topic, setTopic] = useState('');
   const [topics, setTopics] = useState([]);
   const [newTopic, setNewTopic] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     fetchUserData();
@@ -57,6 +60,9 @@ const NoteForm = () => {
   };
 
   const handleSubmit = async (event) => {
+
+    setIsLoading(true);
+
     event.preventDefault();
 
     let note = {
@@ -74,8 +80,10 @@ const NoteForm = () => {
       setContent('');
       setTopic('');
     } catch (err) {
+      alert("Error uploading note!")
       console.log(err);
     }
+    setIsLoading(false)
   };
 
   const handleCheckGrammar = async () => {
@@ -150,9 +158,8 @@ const NoteForm = () => {
                 Add Topic
               </Button>
             </Form.Group>
-            <Button variant="primary" type="submit" className="m-2">
-              Save Note
-            </Button>
+            <LoadingButton type="submit" className="m-2" isLoading={isLoading} Type={"Save"}/>
+     
           </Form>
         </Col>
       </Row>
