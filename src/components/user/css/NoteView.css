@@ -1,0 +1,9 @@
+.list-group-item {
+    position: relative;
+}
+
+.button-corner {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
