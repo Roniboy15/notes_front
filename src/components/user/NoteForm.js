@@ -76,7 +76,7 @@ const NoteForm = () => {
       let data = await doApiMethod(url, 'POST', note);
       console.log(data);
       // Reset the form
-      setAuthor('');
+      setAuthor(user? user.username : '');
       setContent('');
       setTopic('');
     } catch (err) {
@@ -92,13 +92,13 @@ const NoteForm = () => {
         content,
       });
   
-      // Check if the response contains HTML tags.
-      // const htmlTagPattern = /<[^>]*>/g;
+      //Check if the response contains HTML tags.
+      const htmlTagPattern = /<[^>]*>/g;
   
-      // Remove HTML tags from the response.
-      // const filteredResponse = correctionResponse.replace(htmlTagPattern, '');
+      //Remove HTML tags from the response.
+      const filteredResponse = correctionResponse.replace(htmlTagPattern, '');
   
-      if(window.confirm("Do you want to accept this change?\n" + `"${correctionResponse}"`)){
+      if(window.confirm("Do you want to accept this change?\n" + `"${filteredResponse}"`)){
         setContent(correctionResponse);
       }
     } catch (err) {
