@@ -7,3 +7,12 @@
     right: 0;
     bottom: 0;
 }
+
+
+/* NoteBackground */
+.stripe-background {
+    background-image: linear-gradient(white 50%, rgba(251, 244, 177, 0.463) 50%);
+    background-size: 100% 3rem;
+    background-position:0 1.5rem;
+  }
+  
