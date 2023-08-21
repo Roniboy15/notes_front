@@ -124,7 +124,7 @@ const NoteForm = () => {
             </Form.Group>
             <Form.Group controlId="content" className="m-2">
               <Form.Label>Content</Form.Label>
-              <ReactQuill theme="snow" value={content} onChange={setContent} />
+              <ReactQuill className='stripe-background' theme="snow" value={content} onChange={setContent} />
               <Button variant="info" type="button" className="m-2" onClick={handleCheckGrammar}>
               Check Grammar
             </Button>

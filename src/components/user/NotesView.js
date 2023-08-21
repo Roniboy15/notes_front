@@ -109,7 +109,7 @@ const NotesViewer = () => {
             {notes.map((note, index) => (
               <ListGroup.Item
               key={index}
-              className='mt-3 position-relative'
+              className='mt-3 position-relative stripe-background'
               ref={index === 0 ? firstNoteRef : null}
             > {/* Applied position-relative */}
                 {note.author ?
@@ -118,7 +118,7 @@ const NotesViewer = () => {
                     <hr></hr>
                   </div>
                   : ''}
-                <div className='stripe-background' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(note.content) }}></div>
+                <div  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(note.content) }}></div>
                 <button className='btn btn-outline-success p-1 mb-2 me-2 button-corner' onClick={() => findSimilarNotes(index)}>Compare</button> {/* Applied button-corner */}
               </ListGroup.Item>
             ))}
